@@ -43,6 +43,13 @@ import {
   getSecondsUntilTargetToday,
   timeStringToMinutes,
 } from '../services/timeUtils';
+import { AudioManifestItem, relinkImportedScheduleAudio } from '../services/scheduleImport';
+
+export interface SettingsImportResult {
+  success: boolean;
+  relinkedAudioCount: number;
+  unresolvedAudioCount: number;
+}
 
 export interface BellContextType {
   // Clock state
@@ -101,7 +108,7 @@ export interface BellContextType {
   // Logs & Settings
   clearLogs: () => Promise<void>;
   exportSettingsJSON: () => string;
-  importSettingsJSON: (jsonStr: string) => Promise<boolean>;
+  importSettingsJSON: (jsonStr: string) => Promise<SettingsImportResult>;
   resetToDefaults: () => Promise<void>;
   toggleWeekendEnabled: () => void;
 }
@@ -543,7 +550,17 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     await saveAudioToDB(newAudio);
-    setAudioLibrary((prev) => [newAudio, ...prev]);
+    setAudioLibrary((previousAudios) => [newAudio, ...previousAudios]);
+
+    // Also support the reverse order: import a configuration first, then
+    // upload its referenced audio file afterward.
+    const availableAudios = await getAllAudiosFromDB();
+    const relinkResult = relinkImportedScheduleAudio(schedules, availableAudios);
+    if (relinkResult.relinkedAudioCount > 0) {
+      setSchedules(relinkResult.schedules);
+      await saveSchedulesToDB(relinkResult.schedules);
+    }
+
     return newAudio;
   };
 
@@ -589,17 +606,27 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
       version: '2.0.0',
       settings,
       schedules,
+      audioManifest: audioLibrary.map(({ id, name, fileName, size, type, duration }) => ({
+        id,
+        name,
+        fileName,
+        size,
+        type,
+        duration,
+      })),
       morningActivities,
       logs: logs.slice(0, 100),
     };
     return JSON.stringify(exportData, null, 2);
   };
 
-  const importSettingsJSON = async (jsonStr: string): Promise<boolean> => {
+  const importSettingsJSON = async (jsonStr: string): Promise<SettingsImportResult> => {
     try {
       const parsed = JSON.parse(jsonStr);
       let importedSettings: SystemSettings | null = null;
       let importedSchedules: BellEvent[] | null = null;
+      let relinkedAudioCount = 0;
+      let unresolvedAudioCount = 0;
 
       if (parsed.settings) {
         importedSettings = {
@@ -611,6 +638,16 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (parsed.schedules && Array.isArray(parsed.schedules)) {
         importedSchedules = parsed.schedules;
+
+        const availableAudios = await getAllAudiosFromDB();
+        const relinkResult = relinkImportedScheduleAudio(
+          importedSchedules,
+          availableAudios,
+          Array.isArray(parsed.audioManifest) ? parsed.audioManifest as AudioManifestItem[] : [],
+        );
+        importedSchedules = relinkResult.schedules;
+        relinkedAudioCount = relinkResult.relinkedAudioCount;
+        unresolvedAudioCount = relinkResult.unresolvedAudioCount;
 
         if (importedSettings && importedSettings.scheduleRevision < CURRENT_SCHEDULE_REVISION) {
           importedSchedules = migrateSchedulesToCurrentRevision(importedSchedules);
@@ -628,10 +665,10 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await saveSettingsToDB(importedSettings);
         setSettings(importedSettings);
       }
-      return true;
+      return { success: true, relinkedAudioCount, unresolvedAudioCount };
     } catch (e) {
       console.error('Invalid JSON import:', e);
-      return false;
+      return { success: false, relinkedAudioCount: 0, unresolvedAudioCount: 0 };
     }
   };
 

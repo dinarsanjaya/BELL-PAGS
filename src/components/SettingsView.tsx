@@ -46,9 +46,15 @@ export const SettingsView: React.FC = () => {
 
     try {
       const text = await file.text();
-      const success = await importSettingsJSON(text);
-      if (success) {
-        setImportStatus('Konfigurasi jadwal berhasil diimpor!');
+      const result = await importSettingsJSON(text);
+      if (result.success) {
+        const relinkMessage = result.relinkedAudioCount > 0
+          ? ` ${result.relinkedAudioCount} referensi audio berhasil dihubungkan ulang.`
+          : '';
+        const unresolvedMessage = result.unresolvedAudioCount > 0
+          ? ` ${result.unresolvedAudioCount} referensi audio belum ditemukan; upload file dengan nama yang sama lalu impor kembali.`
+          : '';
+        setImportStatus(`Konfigurasi jadwal berhasil diimpor!${relinkMessage}${unresolvedMessage}`);
         setTimeout(() => setImportStatus(null), 4000);
       } else {
         alert('File JSON tidak valid atau struktur tidak cocok.');
