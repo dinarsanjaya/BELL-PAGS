@@ -70,4 +70,5 @@ export interface SystemSettings {
   autoDismissFloatingPlayerSeconds: number;
   schoolName: string;
   subTitle: string;
+  scheduleRevision: number; // internal revision for one-time default timetable migrations
 }

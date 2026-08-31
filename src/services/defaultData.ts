@@ -2,6 +2,7 @@ import { BellEvent, DayOfWeek, MorningActivity, SystemSettings } from '../types'
 
 export const DEFAULT_WEEKDAYS: DayOfWeek[] = ['senin', 'selasa', 'rabu', 'kamis', 'jumat'];
 export const ALL_DAYS: DayOfWeek[] = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
+export const CURRENT_SCHEDULE_REVISION = 2;
 
 export const DEFAULT_SCHEDULES: BellEvent[] = [
   {
@@ -19,8 +20,22 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
   },
   {
     id: 'pags-event-02',
-    name: 'Mulai Pelajaran',
+    name: 'Mulai JP 1',
     time: '07:30',
+    endTime: '08:10',
+    days: [...DEFAULT_WEEKDAYS],
+    audioId: null,
+    audioName: '',
+    volume: 1.0,
+    enabled: true,
+    category: 'class',
+    jpCount: 1,
+    description: 'Jam Pelajaran 1 (40 menit)',
+  },
+  {
+    id: 'pags-event-jp-02',
+    name: 'Pergantian ke JP 2',
+    time: '08:10',
     endTime: '08:50',
     days: [...DEFAULT_WEEKDAYS],
     audioId: null,
@@ -28,8 +43,8 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
     volume: 1.0,
     enabled: true,
     category: 'class',
-    jpCount: 2,
-    description: 'Pelajaran Blok 1 (2 JP = 80 Menit)',
+    jpCount: 1,
+    description: 'Jam Pelajaran 2 (40 menit)',
   },
   {
     id: 'pags-event-03',
@@ -46,8 +61,22 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
   },
   {
     id: 'pags-event-04',
-    name: 'Masuk Setelah Istirahat',
+    name: 'Masuk Setelah Istirahat / Mulai JP 3',
     time: '09:05',
+    endTime: '09:45',
+    days: [...DEFAULT_WEEKDAYS],
+    audioId: null,
+    audioName: '',
+    volume: 1.0,
+    enabled: true,
+    category: 'class',
+    jpCount: 1,
+    description: 'Jam Pelajaran 3 (40 menit)',
+  },
+  {
+    id: 'pags-event-jp-04',
+    name: 'Pergantian ke JP 4',
+    time: '09:45',
     endTime: '10:25',
     days: [...DEFAULT_WEEKDAYS],
     audioId: null,
@@ -55,8 +84,8 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
     volume: 1.0,
     enabled: true,
     category: 'class',
-    jpCount: 2,
-    description: 'Pelajaran Blok 2 (2 JP = 80 Menit)',
+    jpCount: 1,
+    description: 'Jam Pelajaran 4 (40 menit)',
   },
   {
     id: 'pags-event-indonesia-raya-mars',
@@ -73,8 +102,22 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
   },
   {
     id: 'pags-event-05',
-    name: 'Pergantian Pelajaran',
+    name: 'Pergantian ke JP 5',
     time: '10:25',
+    endTime: '11:05',
+    days: [...DEFAULT_WEEKDAYS],
+    audioId: null,
+    audioName: '',
+    volume: 1.0,
+    enabled: true,
+    category: 'class',
+    jpCount: 1,
+    description: 'Jam Pelajaran 5 (40 menit)',
+  },
+  {
+    id: 'pags-event-jp-06',
+    name: 'Pergantian ke JP 6',
+    time: '11:05',
     endTime: '11:45',
     days: [...DEFAULT_WEEKDAYS],
     audioId: null,
@@ -82,8 +125,8 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
     volume: 1.0,
     enabled: true,
     category: 'class',
-    jpCount: 2,
-    description: 'Pelajaran Blok 3 (2 JP = 80 Menit)',
+    jpCount: 1,
+    description: 'Jam Pelajaran 6 (40 menit)',
   },
   {
     id: 'pags-event-06',
@@ -100,8 +143,22 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
   },
   {
     id: 'pags-event-07',
-    name: 'Mulai Pelajaran Siang',
+    name: 'Mulai Pelajaran Siang / JP 7',
     time: '13:00',
+    endTime: '13:40',
+    days: [...DEFAULT_WEEKDAYS],
+    audioId: null,
+    audioName: '',
+    volume: 1.0,
+    enabled: true,
+    category: 'class',
+    jpCount: 1,
+    description: 'Jam Pelajaran 7 (40 menit)',
+  },
+  {
+    id: 'pags-event-jp-08',
+    name: 'Pergantian ke JP 8',
+    time: '13:40',
     endTime: '14:20',
     days: [...DEFAULT_WEEKDAYS],
     audioId: null,
@@ -109,12 +166,12 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
     volume: 1.0,
     enabled: true,
     category: 'class',
-    jpCount: 2,
-    description: 'Pelajaran Blok Siang (2 JP: 13:00-14:20 atau 3 JP: 13:00-15:00)',
+    jpCount: 1,
+    description: 'Jam Pelajaran 8 (40 menit)',
   },
   {
     id: 'pags-event-08',
-    name: 'Pergantian Pelajaran / 2 JP',
+    name: 'Pergantian ke JP 9',
     time: '14:20',
     endTime: '15:00',
     days: [...DEFAULT_WEEKDAYS],
@@ -123,7 +180,8 @@ export const DEFAULT_SCHEDULES: BellEvent[] = [
     volume: 1.0,
     enabled: true,
     category: 'class',
-    description: 'Penanda pergantian untuk blok 2 JP (Kelas 3 JP tetap lanjut hingga 15:00)',
+    jpCount: 1,
+    description: 'Jam Pelajaran 9 (40 menit)',
   },
   {
     id: 'pags-event-09',
@@ -259,4 +317,61 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   autoDismissFloatingPlayerSeconds: 15,
   schoolName: 'PRADITYA ADHIGANA GLOBAL SCHOOL',
   subTitle: 'AUTOMATIC SCHOOL BELL SYSTEM',
+  scheduleRevision: CURRENT_SCHEDULE_REVISION,
 };
+
+const LEGACY_DEFAULT_IDS = new Set([
+  'pags-event-01',
+  'pags-event-02',
+  'pags-event-03',
+  'pags-event-04',
+  'pags-event-indonesia-raya-mars',
+  'pags-event-05',
+  'pags-event-06',
+  'pags-event-07',
+  'pags-event-08',
+  'pags-event-09',
+  'pags-event-10',
+  'pags-event-11',
+  'pags-event-12',
+  'pags-event-13',
+]);
+
+const NEW_EVENT_SOURCE_IDS: Record<string, string> = {
+  'pags-event-jp-02': 'pags-event-02',
+  'pags-event-jp-04': 'pags-event-04',
+  'pags-event-jp-06': 'pags-event-05',
+  'pags-event-jp-08': 'pags-event-07',
+};
+
+const MANAGED_DEFAULT_IDS = new Set(DEFAULT_SCHEDULES.map((schedule) => schedule.id));
+
+/**
+ * Upgrade the former multi-JP blocks to one event per 40-minute JP while
+ * retaining each existing event's audio, volume, enabled state, and weekdays.
+ */
+export function migrateSchedulesToCurrentRevision(schedules: BellEvent[]): BellEvent[] {
+  const existingById = new Map(schedules.map((schedule) => [schedule.id, schedule]));
+
+  const revisedDefaults = DEFAULT_SCHEDULES.map((defaultEvent) => {
+    const sourceId = NEW_EVENT_SOURCE_IDS[defaultEvent.id] || defaultEvent.id;
+    const source = existingById.get(sourceId);
+
+    if (!source) return { ...defaultEvent, days: [...defaultEvent.days] };
+
+    return {
+      ...defaultEvent,
+      days: [...source.days],
+      audioId: source.audioId,
+      audioName: source.audioName,
+      volume: source.volume,
+      enabled: source.enabled,
+      notes: source.notes,
+    };
+  });
+
+  const customEvents = schedules.filter(
+    (schedule) => !LEGACY_DEFAULT_IDS.has(schedule.id) && !MANAGED_DEFAULT_IDS.has(schedule.id),
+  );
+  return [...revisedDefaults, ...customEvents].sort((a, b) => a.time.localeCompare(b.time));
+}

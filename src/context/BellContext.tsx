@@ -24,7 +24,13 @@ import {
   saveSchedulesToDB,
   saveSettingsToDB,
 } from '../services/db';
-import { DEFAULT_MORNING_ACTIVITIES, DEFAULT_SCHEDULES, DEFAULT_SETTINGS } from '../services/defaultData';
+import {
+  CURRENT_SCHEDULE_REVISION,
+  DEFAULT_MORNING_ACTIVITIES,
+  DEFAULT_SCHEDULES,
+  DEFAULT_SETTINGS,
+  migrateSchedulesToCurrentRevision,
+} from '../services/defaultData';
 import {
   formatDateDisplayEN,
   formatDateDisplayID,
@@ -132,8 +138,24 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
           getAllLogsFromDB(),
         ]);
 
-        // Ensure 10:00 AM Indonesia Raya & Mars PAGS event exists in loaded schedules
+        let resolvedSettings = loadedSettings;
         let resolvedSchedules = [...loadedSchedules];
+
+        // Existing browsers retain IndexedDB data, so upgrade the old 2-3 JP
+        // blocks once and preserve user audio assignments and custom events.
+        if (loadedSettings.scheduleRevision < CURRENT_SCHEDULE_REVISION) {
+          resolvedSchedules = migrateSchedulesToCurrentRevision(loadedSchedules);
+          resolvedSettings = {
+            ...loadedSettings,
+            scheduleRevision: CURRENT_SCHEDULE_REVISION,
+          };
+          await Promise.all([
+            saveSchedulesToDB(resolvedSchedules),
+            saveSettingsToDB(resolvedSettings),
+          ]);
+        }
+
+        // Ensure 10:00 AM Indonesia Raya & Mars PAGS event exists in loaded schedules
         const has10AmEvent = resolvedSchedules.some(
           (s) => s.id === 'pags-event-indonesia-raya-mars' || s.time === '10:00'
         );
@@ -147,14 +169,14 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
         }
 
-        setSettings(loadedSettings);
+        setSettings(resolvedSettings);
         setSchedules(resolvedSchedules);
         setAudioLibrary(loadedAudios);
         setMorningActivities(loadedMorning);
         setLogs(loadedLogs);
 
-        audioEngine.setMasterVolume(loadedSettings.masterVolume);
-        audioEngine.setMuted(loadedSettings.isMuted);
+        audioEngine.setMasterVolume(resolvedSettings.masterVolume);
+        audioEngine.setMuted(resolvedSettings.isMuted);
       } catch (err) {
         console.error('Failed to load initial data from IndexedDB:', err);
       }
@@ -564,7 +586,7 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const exportData = {
       schoolName: settings.schoolName,
       exportDate: new Date().toISOString(),
-      version: '1.0.0',
+      version: '2.0.0',
       settings,
       schedules,
       morningActivities,
@@ -576,17 +598,35 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const importSettingsJSON = async (jsonStr: string): Promise<boolean> => {
     try {
       const parsed = JSON.parse(jsonStr);
+      let importedSettings: SystemSettings | null = null;
+      let importedSchedules: BellEvent[] | null = null;
+
+      if (parsed.settings) {
+        importedSettings = {
+          ...DEFAULT_SETTINGS,
+          ...parsed.settings,
+          scheduleRevision: parsed.settings.scheduleRevision ?? 1,
+        };
+      }
+
       if (parsed.schedules && Array.isArray(parsed.schedules)) {
-        await saveSchedulesToDB(parsed.schedules);
-        setSchedules(parsed.schedules);
+        importedSchedules = parsed.schedules;
+
+        if (importedSettings && importedSettings.scheduleRevision < CURRENT_SCHEDULE_REVISION) {
+          importedSchedules = migrateSchedulesToCurrentRevision(importedSchedules);
+          importedSettings.scheduleRevision = CURRENT_SCHEDULE_REVISION;
+        }
+
+        await saveSchedulesToDB(importedSchedules);
+        setSchedules(importedSchedules);
       }
       if (parsed.morningActivities) {
         await saveMorningActivitiesToDB(parsed.morningActivities);
         setMorningActivities(parsed.morningActivities);
       }
-      if (parsed.settings) {
-        await saveSettingsToDB(parsed.settings);
-        setSettings(parsed.settings);
+      if (importedSettings) {
+        await saveSettingsToDB(importedSettings);
+        setSettings(importedSettings);
       }
       return true;
     } catch (e) {

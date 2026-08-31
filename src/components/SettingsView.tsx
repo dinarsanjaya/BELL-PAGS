@@ -204,7 +204,7 @@ export const SettingsView: React.FC = () => {
           </div>
 
           <p className="text-xs text-slate-400 leading-relaxed">
-            Revert all 13 standard school bell timetable slots and PAGS morning activity schedules back to default settings. Uploaded audio files in your library will remain intact.
+            Revert all 17 standard school bell timetable slots, the 10:00 song event, and PAGS morning activities back to default settings. Uploaded audio files in your library will remain intact.
           </p>
 
           <div className="pt-2">

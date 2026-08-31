@@ -1,0 +1,405 @@
+{
+  "schoolName": "PRADITYA ADHIGANA GLOBAL SCHOOL",
+  "exportDate": "2026-08-31T07:41:19.084Z",
+  "version": "1.0.0",
+  "settings": {
+    "isSystemActive": true,
+    "masterVolume": 1,
+    "isMuted": false,
+    "weekendEnabled": false,
+    "autoDismissFloatingPlayerSeconds": 15,
+    "schoolName": "PRADITYA ADHIGANA GLOBAL SCHOOL",
+    "subTitle": "AUTOMATIC SCHOOL BELL SYSTEM"
+  },
+  "schedules": [
+    {
+      "id": "pags-event-01",
+      "name": "Upacara 5 Menit Lagi",
+      "time": "06:55",
+      "endTime": "07:00",
+      "days": [
+        "senin"
+      ],
+      "audioId": "audio-1788144334680",
+      "audioName": "17_Upacara_5_Menit_Lagi",
+      "volume": 1,
+      "enabled": true,
+      "category": "morning",
+      "description": "Kegiatan pagi sesuai jadwal harian (Upacara, Literasi/Vocab, Socratic Society, Duha & Al-Kahf)"
+    },
+    {
+      "name": "Upacara Bendera",
+      "time": "07:00",
+      "endTime": "07:05",
+      "days": [
+        "senin"
+      ],
+      "audioId": "audio-1788144334708",
+      "audioName": "18_Upacara_Bendera_Dimulai",
+      "volume": 1,
+      "enabled": true,
+      "description": "",
+      "jpCount": 2,
+      "id": "pags-event-1788145702080"
+    },
+    {
+      "id": "pags-event-02",
+      "name": "Mulai Pelajaran",
+      "time": "07:30",
+      "endTime": "08:50",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144334276",
+      "audioName": "01_Jam_Pertama_Dimulai",
+      "volume": 1,
+      "enabled": true,
+      "category": "class",
+      "jpCount": 2,
+      "description": "Pelajaran Blok 1 (2 JP = 80 Menit)"
+    },
+    {
+      "id": "pags-event-03",
+      "name": "Istirahat",
+      "time": "08:50",
+      "endTime": "09:05",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144334598",
+      "audioName": "14_Istirahat_Pertama",
+      "volume": 1,
+      "enabled": true,
+      "category": "recess",
+      "description": "Recess / Waktu Istirahat Pagi (15 Menit)"
+    },
+    {
+      "id": "pags-event-04",
+      "name": "Masuk Setelah Istirahat",
+      "time": "09:05",
+      "endTime": "10:25",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144334295",
+      "audioName": "02_Jam_Kedua_Dimulai",
+      "volume": 1,
+      "enabled": true,
+      "category": "class",
+      "jpCount": 2,
+      "description": "Pelajaran Blok 2 (2 JP = 80 Menit)"
+    },
+    {
+      "id": "pags-event-indonesia-raya-mars",
+      "name": "Menyanyikan Lagu Indonesia Raya & Mars PAGS",
+      "time": "10:00",
+      "endTime": "10:05",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144324069",
+      "audioName": "JAM 10",
+      "volume": 1,
+      "enabled": true,
+      "category": "morning",
+      "description": "Menyanyikan Lagu Kebangsaan Indonesia Raya dan Mars Praditya Adigana Global School (PAGS)"
+    },
+    {
+      "id": "pags-event-05",
+      "name": "Pergantian Pelajaran",
+      "time": "10:25",
+      "endTime": "11:45",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144334314",
+      "audioName": "03_Jam_Ketiga_Dimulai",
+      "volume": 1,
+      "enabled": true,
+      "category": "class",
+      "jpCount": 2,
+      "description": "Pelajaran Blok 3 (2 JP = 80 Menit)"
+    },
+    {
+      "id": "pags-event-06",
+      "name": "Lunch Break & Zuhur Prayer",
+      "time": "11:45",
+      "endTime": "13:00",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144334574",
+      "audioName": "13_Istirahat_Umum",
+      "volume": 1,
+      "enabled": true,
+      "category": "ishoma",
+      "description": "Ishoma (Makan Siang & Ibadah Salat Zuhur / Jumat Berjamaah)"
+    },
+    {
+      "id": "pags-event-07",
+      "name": "Pelajaran ke 4",
+      "time": "13:00",
+      "endTime": "14:20",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144334332",
+      "audioName": "04_Jam_Keempat_Dimulai",
+      "volume": 1,
+      "enabled": true,
+      "category": "class",
+      "jpCount": 2,
+      "description": "Pelajaran Blok Siang (2 JP: 13:00-14:20 atau 3 JP: 13:00-15:00)"
+    },
+    {
+      "id": "pags-event-08",
+      "name": "Pergantian Pelajaran / 2 JP",
+      "time": "14:20",
+      "endTime": "15:00",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": "audio-1788144334364",
+      "audioName": "05_Jam_Kelima_Dimulai",
+      "volume": 1,
+      "enabled": true,
+      "category": "class",
+      "description": "Penanda pergantian untuk blok 2 JP (Kelas 3 JP tetap lanjut hingga 15:00)"
+    },
+    {
+      "id": "pags-event-09",
+      "name": "Salat Asar / Selesai Pelajaran Reguler",
+      "time": "15:00",
+      "endTime": "15:15",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis"
+      ],
+      "audioId": "audio-1788145935663",
+      "audioName": "19-pelajaran-selesai-sampai-jumpa-besok-id_EWMmUKl0",
+      "volume": 1,
+      "enabled": true,
+      "category": "prayer",
+      "description": "Selesai KBM Reguler & Ibadah Salat Asar"
+    },
+    {
+      "id": "pags-event-10",
+      "name": "Study Hour",
+      "time": "15:15",
+      "endTime": "16:00",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": null,
+      "audioName": "",
+      "volume": 1,
+      "enabled": false,
+      "category": "study",
+      "description": "Jam Wajib Belajar Terbimbing / Mentoring"
+    },
+    {
+      "id": "pags-event-11",
+      "name": "Extracurricular / School Activity",
+      "time": "16:00",
+      "endTime": "17:00",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": null,
+      "audioName": "",
+      "volume": 1,
+      "enabled": false,
+      "category": "extracurricular",
+      "description": "Kegiatan Ekstrakurikuler & Pengembangan Bakat Siswa"
+    },
+    {
+      "id": "pags-event-12",
+      "name": "Dismissal Ceremony",
+      "time": "17:00",
+      "endTime": "17:15",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": null,
+      "audioName": "",
+      "volume": 1,
+      "enabled": false,
+      "category": "dismissal",
+      "description": "Persiapan Pulang & Upacara Penutupan Hari"
+    },
+    {
+      "id": "pags-event-13",
+      "name": "Pulang",
+      "time": "17:15",
+      "days": [
+        "senin",
+        "selasa",
+        "rabu",
+        "kamis",
+        "jumat"
+      ],
+      "audioId": null,
+      "audioName": "",
+      "volume": 1,
+      "enabled": false,
+      "category": "dismissal",
+      "description": "Bel Akhir Sekolah / Waktu Kepulangan"
+    }
+  ],
+  "morningActivities": {
+    "senin": {
+      "day": "senin",
+      "title": "FLAG CEREMONY",
+      "smpTitle": "FLAG CEREMONY (Upacara Bendera)",
+      "smaTitle": "FLAG CEREMONY (Upacara Bendera)",
+      "timeRange": "06:45 - 07:30",
+      "description": "Upacara Bendera Mingguan seluruh civitas akademika"
+    },
+    "selasa": {
+      "day": "selasa",
+      "title": "LITERACY & VOCABULARY",
+      "smpTitle": "BOOK READING",
+      "smaTitle": "DAILY VOCABS",
+      "timeRange": "06:45 - 07:30",
+      "description": "Penguatan Literasi & Kosakata Bahasa Internasional"
+    },
+    "rabu": {
+      "day": "rabu",
+      "title": "VOCABULARY & LITERACY",
+      "smpTitle": "DAILY VOCABS",
+      "smaTitle": "BOOK READING",
+      "timeRange": "06:45 - 07:30",
+      "description": "Pengayaan Kosakata & Membaca Mandiri Berbasis Target"
+    },
+    "kamis": {
+      "day": "kamis",
+      "title": "SOCRATIC SOCIETY",
+      "smpTitle": "SOCRATIC SOCIETY (Diskusi Kritis)",
+      "smaTitle": "SOCRATIC SOCIETY (Debat & Dialektika)",
+      "timeRange": "06:45 - 07:30",
+      "description": "Forum Diskusi Berpikir Kritis & Dialektika Siswa"
+    },
+    "jumat": {
+      "day": "jumat",
+      "title": "DUHA & AL-KAHF",
+      "smpTitle": "SALAT DUHA & TADARUS AL-KAHF",
+      "smaTitle": "SALAT DUHA & TADARUS AL-KAHF",
+      "timeRange": "06:45 - 07:30",
+      "description": "Pembinaan Karakter Spiritual, Ibadah Duha, dan Tadarus Surat Al-Kahf"
+    },
+    "sabtu": {
+      "day": "sabtu",
+      "title": "WEEKEND / NONAKTIF",
+      "smpTitle": "Libur Akhir Pekan / Kegiatan Khusus",
+      "smaTitle": "Libur Akhir Pekan / Kegiatan Khusus",
+      "timeRange": "06:45 - 07:30",
+      "description": "Bel Sekolah Otomatis Nonaktif secara default"
+    },
+    "minggu": {
+      "day": "minggu",
+      "title": "WEEKEND / NONAKTIF",
+      "smpTitle": "Libur Akhir Pekan",
+      "smaTitle": "Libur Akhir Pekan",
+      "timeRange": "06:45 - 07:30",
+      "description": "Bel Sekolah Otomatis Nonaktif secara default"
+    }
+  },
+  "logs": [
+    {
+      "id": "log-1788160826524",
+      "timestamp": "2026-08-31T07:20:26.524Z",
+      "wibTime": "14:20:00",
+      "dateFormatted": "31/08/2026",
+      "eventId": "pags-event-08",
+      "eventName": "Pergantian Pelajaran / 2 JP",
+      "audioName": "05_Jam_Kelima_Dimulai",
+      "status": "SUCCESS"
+    },
+    {
+      "id": "log-1788156059910",
+      "timestamp": "2026-08-31T06:00:59.910Z",
+      "wibTime": "13:00:35",
+      "dateFormatted": "31/08/2026",
+      "eventId": "pags-event-07",
+      "eventName": "Pelajaran ke 4",
+      "audioName": "04_Jam_Keempat_Dimulai",
+      "status": "SUCCESS"
+    },
+    {
+      "id": "log-1788151524034",
+      "timestamp": "2026-08-31T04:45:24.034Z",
+      "wibTime": "11:45:00",
+      "dateFormatted": "31/08/2026",
+      "eventId": "pags-event-06",
+      "eventName": "Lunch Break & Zuhur Prayer",
+      "audioName": "13_Istirahat_Umum",
+      "status": "SUCCESS"
+    },
+    {
+      "id": "log-1788146725960",
+      "timestamp": "2026-08-31T03:25:25.960Z",
+      "wibTime": "10:25:00",
+      "dateFormatted": "31/08/2026",
+      "eventId": "pags-event-05",
+      "eventName": "Pergantian Pelajaran",
+      "audioName": "03_Jam_Ketiga_Dimulai",
+      "status": "SUCCESS"
+    },
+    {
+      "id": "log-1788145424515",
+      "timestamp": "2026-08-31T03:03:44.515Z",
+      "wibTime": "10:00:00",
+      "dateFormatted": "31/08/2026",
+      "eventId": "pags-event-indonesia-raya-mars",
+      "eventName": "Menyanyikan Lagu Indonesia Raya & Mars PAGS",
+      "audioName": "JAM 10",
+      "status": "SUCCESS"
+    }
+  ]
+}

@@ -211,7 +211,12 @@ export async function getSettingsFromDB(): Promise<SystemSettings> {
 
     request.onsuccess = () => {
       if (request.result && request.result.value) {
-        resolve({ ...DEFAULT_SETTINGS, ...request.result.value });
+        const storedSettings = request.result.value as Partial<SystemSettings>;
+        resolve({
+          ...DEFAULT_SETTINGS,
+          ...storedSettings,
+          scheduleRevision: storedSettings.scheduleRevision ?? 1,
+        });
       } else {
         saveSettingsToDB(DEFAULT_SETTINGS).then(() => {
           resolve(DEFAULT_SETTINGS);
