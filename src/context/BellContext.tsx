@@ -132,24 +132,19 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
           getAllLogsFromDB(),
         ]);
 
-        // Auto-assign default announcement presets if schedules have null audioId
-        let resolvedSchedules = loadedSchedules;
-        const hasUnassigned = loadedSchedules.some((s) => !s.audioId);
-        if (hasUnassigned) {
-          resolvedSchedules = loadedSchedules.map((s) => {
-            if (!s.audioId) {
-              const defaultMatch = DEFAULT_SCHEDULES.find((ds) => ds.id === s.id || ds.time === s.time);
-              if (defaultMatch && defaultMatch.audioId) {
-                return {
-                  ...s,
-                  audioId: defaultMatch.audioId,
-                  audioName: defaultMatch.audioName || defaultMatch.name,
-                };
-              }
-            }
-            return s;
-          });
-          await saveSchedulesToDB(resolvedSchedules);
+        // Ensure 10:00 AM Indonesia Raya & Mars PAGS event exists in loaded schedules
+        let resolvedSchedules = [...loadedSchedules];
+        const has10AmEvent = resolvedSchedules.some(
+          (s) => s.id === 'pags-event-indonesia-raya-mars' || s.time === '10:00'
+        );
+
+        if (!has10AmEvent) {
+          const default10Am = DEFAULT_SCHEDULES.find((ds) => ds.id === 'pags-event-indonesia-raya-mars');
+          if (default10Am) {
+            resolvedSchedules.push({ ...default10Am });
+            resolvedSchedules.sort((a, b) => a.time.localeCompare(b.time));
+            await saveSchedulesToDB(resolvedSchedules);
+          }
         }
 
         setSettings(loadedSettings);
