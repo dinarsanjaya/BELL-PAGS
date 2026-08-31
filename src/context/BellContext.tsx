@@ -44,6 +44,7 @@ import {
   timeStringToMinutes,
 } from '../services/timeUtils';
 import { AudioManifestItem, relinkImportedScheduleAudio } from '../services/scheduleImport';
+import { calculateAudioContentHash, findDuplicateAudio } from '../services/audioDuplicates';
 
 export interface SettingsImportResult {
   success: boolean;
@@ -522,6 +523,23 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const uploadAudioFile = async (file: File, customName?: string): Promise<AudioItem> => {
+    const contentHash = await calculateAudioContentHash(file);
+    const storedAudios = await getAllAudiosFromDB();
+    const duplicateMatch = await findDuplicateAudio(file, storedAudios, contentHash);
+
+    if (duplicateMatch) {
+      const duplicateReason = duplicateMatch.reason === 'content'
+        ? 'isi file yang sama'
+        : 'nama file yang sama';
+      const shouldReplace = window.confirm(
+        `Audio "${duplicateMatch.audio.name}" sudah tersedia (${duplicateReason}).\n\n` +
+        'Klik OK untuk mengganti file lama dan mempertahankan semua jadwal yang terhubung. ' +
+        'Klik Batal untuk membatalkan upload ini.',
+      );
+
+      if (!shouldReplace) return duplicateMatch.audio;
+    }
+
     // Determine audio duration by loading into temporary audio element
     const tempUrl = URL.createObjectURL(file);
     const tempAudio = new Audio(tempUrl);
@@ -537,20 +555,32 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
     });
 
+    const existingAudio = duplicateMatch?.audio;
     const newAudio: AudioItem = {
-      id: 'audio-' + Date.now(),
-      name: customName || file.name.replace(/\.[^/.]+$/, ''),
+      id: existingAudio?.id || 'audio-' + Date.now(),
+      name: customName || existingAudio?.name || file.name.replace(/\.[^/.]+$/, ''),
       fileName: file.name,
       size: file.size,
       type: file.type || 'audio/mpeg',
       duration: Math.round(duration),
       blob: file,
+      contentHash,
       uploadDate: new Date().toISOString(),
       isBuiltIn: false,
     };
 
     await saveAudioToDB(newAudio);
-    setAudioLibrary((previousAudios) => [newAudio, ...previousAudios]);
+    setAudioLibrary((previousAudios) => existingAudio
+      ? previousAudios.map((audio) => audio.id === existingAudio.id ? newAudio : audio)
+      : [newAudio, ...previousAudios]);
+
+    if (existingAudio) {
+      const schedulesWithUpdatedName = schedules.map((schedule) => schedule.audioId === existingAudio.id
+        ? { ...schedule, audioName: newAudio.name }
+        : schedule);
+      setSchedules(schedulesWithUpdatedName);
+      await saveSchedulesToDB(schedulesWithUpdatedName);
+    }
 
     // Also support the reverse order: import a configuration first, then
     // upload its referenced audio file afterward.
@@ -606,13 +636,14 @@ export const BellProvider: React.FC<{ children: React.ReactNode }> = ({ children
       version: '2.0.0',
       settings,
       schedules,
-      audioManifest: audioLibrary.map(({ id, name, fileName, size, type, duration }) => ({
+      audioManifest: audioLibrary.map(({ id, name, fileName, size, type, duration, contentHash }) => ({
         id,
         name,
         fileName,
         size,
         type,
         duration,
+        contentHash,
       })),
       morningActivities,
       logs: logs.slice(0, 100),

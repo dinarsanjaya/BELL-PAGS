@@ -24,6 +24,7 @@ export interface AudioItem {
   type: string; // mime type (e.g. "audio/mpeg")
   duration: number; // in seconds
   blob?: Blob; // stored in IndexedDB
+  contentHash?: string; // SHA-256 used to prevent duplicate uploads
   uploadDate: string; // ISO date string
   isBuiltIn?: boolean;
   builtInType?: 'westminster' | 'school-classic' | 'pleasant-gong' | 'digital-chime';

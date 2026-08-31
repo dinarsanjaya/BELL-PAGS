@@ -1,6 +1,9 @@
 import { AudioItem, BellEvent } from '../types';
 
-export type AudioManifestItem = Pick<AudioItem, 'id' | 'name' | 'fileName' | 'size' | 'type' | 'duration'>;
+export type AudioManifestItem = Pick<
+  AudioItem,
+  'id' | 'name' | 'fileName' | 'size' | 'type' | 'duration' | 'contentHash'
+>;
 
 export interface AudioRelinkResult {
   schedules: BellEvent[];
@@ -59,10 +62,16 @@ export function relinkImportedScheduleAudio(
       return schedule;
     }
 
-    let matches = availableAudios.filter((audio) => {
-      const audioKeys = getAudioKeys(audio);
-      return [...targetKeys].some((key) => audioKeys.has(key));
-    });
+    let matches = exportedAudio?.contentHash
+      ? availableAudios.filter((audio) => audio.contentHash === exportedAudio.contentHash)
+      : [];
+
+    if (matches.length === 0) {
+      matches = availableAudios.filter((audio) => {
+        const audioKeys = getAudioKeys(audio);
+        return [...targetKeys].some((key) => audioKeys.has(key));
+      });
+    }
 
     if (matches.length > 1 && exportedAudio?.size) {
       const sameSizeMatches = matches.filter((audio) => audio.size === exportedAudio.size);
