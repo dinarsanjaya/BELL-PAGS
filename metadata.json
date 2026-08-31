@@ -1,0 +1,6 @@
+{
+  "name": "PAGS Automatic School Bell",
+  "description": "Aplikasi Bel Sekolah Otomatis Berbasis Web untuk Praditya Adhigana Global School dengan scheduler akurat WIB, audio IndexedDB, dan manajemen jadwal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
